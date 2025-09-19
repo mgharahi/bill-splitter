@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "users"
         , indexes = {
@@ -21,4 +23,13 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String password;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<EventEntity> events;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private WalletEntity wallet;
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<TransactionEntity> transactions;
 }
