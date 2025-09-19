@@ -27,7 +27,7 @@ public interface TransactionMapper {
         try {
             return Long.parseLong(id);
         } catch (NumberFormatException e) {
-            return 0L;
+            return null;
         }
     }
 }

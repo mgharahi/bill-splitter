@@ -9,8 +9,6 @@
         <relativePath/>
     </parent>
 
-
-
     <groupId>com.snapp</groupId>
     <artifactId>bill-splitter</artifactId>
     <version>0.0.1-SNAPSHOT</version>

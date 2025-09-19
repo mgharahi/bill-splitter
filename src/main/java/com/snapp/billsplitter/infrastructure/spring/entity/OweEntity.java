@@ -1,6 +1,7 @@
 package com.snapp.billsplitter.infrastructure.spring.entity;
 
 
+import com.snapp.billsplitter.infrastructure.spring.entity._enum.OweStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
 public class OweEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "debtor_id", nullable = false)

@@ -1,4 +1,4 @@
-package com.snapp.billsplitter.infrastructure.spring.entity;
+package com.snapp.billsplitter.infrastructure.spring.entity._enum;
 
 public enum SplitStrategy {
     EQUALS,

@@ -17,7 +17,7 @@ import java.util.Set;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String username;
@@ -28,9 +28,7 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<EventEntity> events;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private WalletEntity wallet;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TransactionEntity> transactions = new HashSet<>();
 }
