@@ -1,4 +1,4 @@
-package com.snapp.billsplitter.infrastructure.controller.dto;
+package com.snapp.billsplitter.infrastructure.controller.dto.auth;
 
 
 import com.snapp.billsplitter.infrastructure.service.auth.dto.GrantType;

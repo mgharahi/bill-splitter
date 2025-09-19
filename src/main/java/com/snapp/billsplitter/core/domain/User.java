@@ -1,33 +1,37 @@
 package com.snapp.billsplitter.core.domain;
 
-import com.snapp.billsplitter.core.domain.split.strategy.SplitStrategyCalculator;
 import com.snapp.billsplitter.core.domain.split.strategy.SplitStrategyFactory;
-import com.sun.java.accessibility.util.GUIInitializedListener;
+import com.snapp.billsplitter.core.repository.UserRepository;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
+@Builder
 public final class User {
     private final String id;
     private final Set<Transaction> transactions;
     private final Set<Event> events;
+    private final UserRepository userRepository;
 
-
-    public User(String id, Set<Transaction> transactions, Set<Event> events) {
-        if (id == null || id.isBlank()) {
-            id = UUID.randomUUID().toString();
-        }
-        this.id = id;
-        this.transactions = Collections.unmodifiableSet(transactions);
-        this.events = Collections.unmodifiableSet(events);
+    @Builder
+    private User(String id,
+                 Set<Transaction> transactions,
+                 Set<Event> events,
+                 UserRepository userRepository) {
+        this.id = id == null || id.isBlank() ? UUID.randomUUID().toString() : id;
+        this.transactions = transactions == null ? Set.of() : Collections.unmodifiableSet(transactions);
+        this.events = events == null ? Set.of() : Collections.unmodifiableSet(events);
+        this.userRepository = userRepository;
     }
 
-    public User addTransaction(Transaction transaction, Set<UserDebt> debtors) {
+    public User addTransaction(Transaction transaction, Set<Owe> debtors) {
         throwExceptionIfAddTransactionInputIsInvalid(transaction, debtors);
+        throwExceptionIfAnyOfDebtorsDoesNotMemberOdEvent(transaction.getEvent(), debtors.stream().map(Owe::getUser).collect(Collectors.toSet()));
 
-        Set<UserDebt> calculatedDebtors = SplitStrategyFactory.getCalculator(transaction.getStrategy()).split(transaction.getAmount(), debtors);
+        Set<Owe> calculatedDebtors = SplitStrategyFactory.getCalculator(transaction.getStrategy()).split(transaction.getAmount(), debtors);
         Set<Owe> owes = calculatedDebtors
                 .stream()
                 .map(x -> new Owe(x.getUser(), x.getAmount()))
@@ -36,10 +40,21 @@ public final class User {
         Set<Transaction> newTransactions = new HashSet<>(transactions);
         newTransactions.add(newTransaction);
 
-        return new User(id, newTransactions, events);
+        return User.builder()
+                .id(id)
+                .transactions(newTransactions)
+                .events(events)
+                .userRepository(userRepository)
+                .build();
     }
 
-    private void throwExceptionIfAddTransactionInputIsInvalid(Transaction transaction, Set<UserDebt> debtors) {
+    private void throwExceptionIfAnyOfDebtorsDoesNotMemberOdEvent(Event event, Set<User> debtors) {
+        Set<User> eventUsers = userRepository.findByEventId(event.getId());
+        if (debtors.stream().anyMatch(debtor -> !eventUsers.contains(debtor)))
+            throw new IllegalArgumentException("The debtor does not belong to the event " + event.getId());
+    }
+
+    private void throwExceptionIfAddTransactionInputIsInvalid(Transaction transaction, Set<Owe> debtors) {
         if (Objects.isNull(transaction)) {
             throw new IllegalArgumentException("transaction cannot be null");
         }

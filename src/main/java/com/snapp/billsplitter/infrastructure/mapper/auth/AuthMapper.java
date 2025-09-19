@@ -1,8 +1,8 @@
 package com.snapp.billsplitter.infrastructure.mapper.auth;
 
 
-import com.snapp.billsplitter.infrastructure.controller.dto.AuthRequest;
-import com.snapp.billsplitter.infrastructure.controller.dto.TokenPackage;
+import com.snapp.billsplitter.infrastructure.controller.dto.auth.AuthRequest;
+import com.snapp.billsplitter.infrastructure.controller.dto.auth.TokenPackage;
 import com.snapp.billsplitter.infrastructure.service.auth.dto.Credential;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

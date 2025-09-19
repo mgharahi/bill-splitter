@@ -1,8 +1,11 @@
 package com.snapp.billsplitter.core.domain;
 
+import lombok.Getter;
+
 import java.util.Objects;
 import java.util.UUID;
 
+@Getter
 public final class Event {
 
     private final String id;
