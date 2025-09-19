@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -31,5 +32,5 @@ public class UserEntity {
     private WalletEntity wallet;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<TransactionEntity> transactions;
+    private Set<TransactionEntity> transactions = new HashSet<>();
 }

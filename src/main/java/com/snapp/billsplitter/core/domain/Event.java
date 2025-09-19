@@ -1,17 +1,19 @@
 package com.snapp.billsplitter.core.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Objects;
 import java.util.UUID;
 
 @Getter
+@Builder
 public final class Event {
 
     private final String id;
 
-
-    public Event(String id) {
+    @Builder
+    private Event(String id) {
         if (id == null || id.isBlank()) {
             id = UUID.randomUUID().toString();
         }

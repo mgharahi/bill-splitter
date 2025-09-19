@@ -1,4 +1,4 @@
-package com.snapp.billsplitter.infrastructure.mapper.auth;
+package com.snapp.billsplitter.infrastructure.mapper;
 
 
 import com.snapp.billsplitter.infrastructure.controller.dto.auth.AuthRequest;

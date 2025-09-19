@@ -1,11 +1,13 @@
 package com.snapp.billsplitter.infrastructure;
 
 import com.snapp.billsplitter.infrastructure.config.property.AuthorizationProperties;
+import com.snapp.billsplitter.infrastructure.controller.TransactionController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.snapp.billsplitter.application","com.snapp.billsplitter.infrastructure"})
 @EnableConfigurationProperties(AuthorizationProperties.class)
 public class BillSplitterApplication {
 

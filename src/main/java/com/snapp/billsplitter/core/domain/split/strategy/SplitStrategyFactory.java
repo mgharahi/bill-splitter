@@ -10,7 +10,7 @@ public class SplitStrategyFactory {
 
     public static SplitStrategyCalculator getCalculator(SplitStrategy strategy) {
         return switch (strategy) {
-            case EQUAL -> equal;
+            case EQUALS -> equal;
             case UNEQUALS -> unequal;
             case PERCENTAGE -> percentage;
         };

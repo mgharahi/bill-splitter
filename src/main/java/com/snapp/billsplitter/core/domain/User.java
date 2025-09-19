@@ -29,16 +29,21 @@ public final class User {
 
     public User addTransaction(Transaction transaction, Set<Owe> debtors) {
         throwExceptionIfAddTransactionInputIsInvalid(transaction, debtors);
-        throwExceptionIfAnyOfDebtorsDoesNotMemberOdEvent(transaction.getEvent(), debtors.stream().map(Owe::getUser).collect(Collectors.toSet()));
+        throwExceptionIfAnyOfDebtorsDoesNotMemberOdEvent(transaction.getEvent(), debtors.stream().map(Owe::getDebtor).collect(Collectors.toSet()));
 
-        Set<Owe> calculatedDebtors = SplitStrategyFactory.getCalculator(transaction.getStrategy()).split(transaction.getAmount(), debtors);
-        Set<Owe> owes = calculatedDebtors
-                .stream()
-                .map(x -> new Owe(x.getUser(), x.getAmount()))
-                .collect(Collectors.toSet());
-        Transaction newTransaction = new Transaction(transaction.getAmount(), transaction.getStrategy(), transaction.getEvent(), owes);
+        Set<Owe> calculatedDebtors = SplitStrategyFactory.getCalculator(transaction.getSplitStrategy()).split(transaction.getAmount(), debtors, this);
+
+        Transaction newTransaction = Transaction.builder()
+                .event(transaction.getEvent())
+                .debts(calculatedDebtors)
+                .owner(transaction.getOwner())
+                .amount(transaction.getAmount())
+                .splitStrategy(transaction.getSplitStrategy())
+                .build();
         Set<Transaction> newTransactions = new HashSet<>(transactions);
         newTransactions.add(newTransaction);
+
+        userRepository.addNewTransaction(id, newTransaction);
 
         return User.builder()
                 .id(id)
@@ -60,6 +65,9 @@ public final class User {
         }
         if (Objects.isNull(debtors) || debtors.isEmpty()) {
             throw new IllegalArgumentException("debtors cannot be empty");
+        }
+        if (!SplitStrategyFactory.getCalculator(transaction.getSplitStrategy()).validate(debtors, transaction.getAmount())) {
+            throw new IllegalArgumentException("The sum of debtors is not valid");
         }
     }
 

@@ -1,7 +1,7 @@
 package com.snapp.billsplitter.infrastructure.controller;
 
 import com.snapp.billsplitter.infrastructure.controller.dto.auth.AuthRequest;
-import com.snapp.billsplitter.infrastructure.mapper.auth.AuthMapper;
+import com.snapp.billsplitter.infrastructure.mapper.AuthMapper;
 import com.snapp.billsplitter.infrastructure.service.auth.AuthenticatorFactory;
 import com.snapp.billsplitter.infrastructure.service.auth.PasswordAuthenticator;
 import com.snapp.billsplitter.infrastructure.controller.dto.auth.TokenPackage;
@@ -29,7 +29,7 @@ public class AuthController {
 
     @Operation(
             summary = "Get access and refresh tokens",
-            description = "Authenticate a user using username/password or refresh token",
+            description = "Authenticate a debtor using username/password or refresh token",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Authentication request containing username/password or refresh token",
                     required = true,
@@ -54,7 +54,7 @@ public class AuthController {
 
     @Operation(
             summary = "Revoke access token",
-            description = "Logout a user and invalidate the provided token",
+            description = "Logout a debtor and invalidate the provided token",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Token package containing access and refresh token to revoke",
                     required = true,

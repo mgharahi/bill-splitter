@@ -1,6 +1,7 @@
 package com.snapp.billsplitter.core.domain;
 
 
+import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -10,27 +11,28 @@ import java.util.Set;
 import java.util.UUID;
 
 @Getter
+@Builder
 public final class Transaction {
     private final String id;
     private final BigDecimal amount;
-    private final SplitStrategy strategy;
+    private final SplitStrategy splitStrategy;
     private final Event event;
     private final Set<Owe> debts;
+    private final User owner;
 
+    @Builder
+    private Transaction(String id, BigDecimal amount, SplitStrategy splitStrategy, Event event, Set<Owe> debts, User owner) {
+        this.id = (id == null || id.isBlank()) ? UUID.randomUUID().toString() : id;
 
-    public Transaction(String id, BigDecimal amount, SplitStrategy strategy, Event event, Set<Owe> debts) {
-        if (id == null || id.isBlank()) {
-            id = UUID.randomUUID().toString();
-        }
-        this.id = id;
         this.amount = amount;
-        this.strategy = strategy;
+        this.splitStrategy = splitStrategy;
         this.event = event;
-        this.debts = Collections.unmodifiableSet(debts);
+        this.debts = debts == null ? Collections.emptySet() : Collections.unmodifiableSet(debts);
+        this.owner = owner;
     }
 
-    public Transaction(BigDecimal amount, SplitStrategy strategy, Event event, Set<Owe> debts) {
-        this(null,amount,strategy,event,debts);
+    private Transaction(BigDecimal amount, SplitStrategy splitStrategy, Event event, Set<Owe> debts, User owner) {
+        this(null, amount, splitStrategy, event, debts, owner);
     }
 
     @Override

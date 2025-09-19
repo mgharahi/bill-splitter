@@ -1,7 +1,7 @@
 package com.snapp.billsplitter.core.domain;
 
 public enum SplitStrategy {
-    EQUAL,
+    EQUALS,
     UNEQUALS,
     PERCENTAGE
 }

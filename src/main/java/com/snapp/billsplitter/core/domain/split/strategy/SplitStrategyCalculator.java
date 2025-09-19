@@ -7,5 +7,6 @@ import java.math.BigDecimal;
 import java.util.Set;
 
 public interface SplitStrategyCalculator {
-    Set<Owe> split(BigDecimal totalAmount, Set<Owe> participants);
+    Set<Owe> split(BigDecimal totalAmount, Set<Owe> participants,User creator);
+    Boolean validate(Set<Owe> participants,BigDecimal totalAmount);
 }
