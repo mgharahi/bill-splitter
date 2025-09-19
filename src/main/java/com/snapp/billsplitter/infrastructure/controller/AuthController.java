@@ -8,6 +8,10 @@ import com.snapp.billsplitter.infrastructure.service.auth.AuthenticatorFactory;
 import com.snapp.billsplitter.infrastructure.service.auth.PasswordAuthenticator;
 import com.snapp.billsplitter.infrastructure.controller.dto.TokenPackage;
 import com.snapp.billsplitter.infrastructure.service.messages.MessageHelper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +29,22 @@ public class AuthController {
     private final PasswordAuthenticator passwordAuthenticator;
     private final MessageHelper messageHelper;
 
+    @Operation(
+            summary = "Get access and refresh tokens",
+            description = "Authenticate a user using username/password or refresh token",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Authentication request containing username/password or refresh token",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = AuthRequest.class))
+            ),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Tokens returned successfully",
+                            content = @Content(schema = @Schema(implementation = TokenPackage.class))),
+                    @ApiResponse(responseCode = "400", description = "Invalid request")
+            }
+    )
     @PostMapping("/token")
-    public ResponseEntity<?> getToken(@Valid @RequestBody AuthRequest request) {
+    public ResponseEntity<TokenPackage> getToken(@Valid @RequestBody AuthRequest request) {
 
         log.info("Received auth request {}", request);
 
@@ -36,8 +54,21 @@ public class AuthController {
         return ResponseEntity.ok(result);
     }
 
+    @Operation(
+            summary = "Revoke access token",
+            description = "Logout a user and invalidate the provided token",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Token package containing access and refresh token to revoke",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = TokenPackage.class))
+            ),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Token revoked successfully"),
+                    @ApiResponse(responseCode = "400", description = "Invalid token package")
+            }
+    )
     @PostMapping("/logout")
-    public ResponseEntity<?> revokeToken(@Valid @RequestBody TokenPackage tokenPackage) {
+    public ResponseEntity<String> revokeToken(@Valid @RequestBody TokenPackage tokenPackage) {
         passwordAuthenticator.logout(authMapper.toTokenPackage(tokenPackage));
         return ResponseEntity.ok(messageHelper.getMessage("message.auth.success.logout"));
     }
