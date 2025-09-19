@@ -1,7 +1,5 @@
 package com.snapp.billsplitter.infrastructure.controller;
 
-
-
 import com.snapp.billsplitter.infrastructure.controller.dto.AuthRequest;
 import com.snapp.billsplitter.infrastructure.mapper.auth.AuthMapper;
 import com.snapp.billsplitter.infrastructure.service.auth.AuthenticatorFactory;
@@ -40,7 +38,7 @@ public class AuthController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Tokens returned successfully",
                             content = @Content(schema = @Schema(implementation = TokenPackage.class))),
-                    @ApiResponse(responseCode = "400", description = "Invalid request")
+                    @ApiResponse(responseCode = "401", description = "Invalid username, password or token")
             }
     )
     @PostMapping("/token")
@@ -64,7 +62,8 @@ public class AuthController {
             ),
             responses = {
                     @ApiResponse(responseCode = "200", description = "Token revoked successfully"),
-                    @ApiResponse(responseCode = "400", description = "Invalid token package")
+                    @ApiResponse(responseCode = "403", description = "Don not have access"),
+                    @ApiResponse(responseCode = "401", description = "Invalid username, password or token")
             }
     )
     @PostMapping("/logout")
