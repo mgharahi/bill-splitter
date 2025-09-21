@@ -4,7 +4,6 @@ import com.snapp.billsplitter.core.domain.Owe;
 import com.snapp.billsplitter.core.domain.Transaction;
 import com.snapp.billsplitter.core.domain.User;
 import com.snapp.billsplitter.infrastructure.mapper.TransactionMapper;
-import com.snapp.billsplitter.infrastructure.service.messages.MessageHelper;
 import com.snapp.billsplitter.infrastructure.spring.entity.OweSummaryEntity;
 import com.snapp.billsplitter.infrastructure.spring.entity.TransactionEntity;
 import com.snapp.billsplitter.infrastructure.spring.entity.UserEntity;
@@ -16,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -29,7 +27,6 @@ public class UserRepository implements com.snapp.billsplitter.core.repository.Us
 
     private final JpaUserRepository jpaUserRepository;
     private final JpaOweSummaryRepository jpaOweSummaryRepository;
-    private final MessageHelper messageHelper;
     private final TransactionMapper transactionMapper;
     private final JpaTransactionRepository jpaTransactionRepository;
     private final ApplicationContext applicationContext;
