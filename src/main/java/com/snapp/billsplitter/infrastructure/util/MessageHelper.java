@@ -1,4 +1,4 @@
-package com.snapp.billsplitter.infrastructure.service.messages;
+package com.snapp.billsplitter.infrastructure.util;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;

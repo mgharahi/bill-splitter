@@ -2,7 +2,7 @@ package com.snapp.billsplitter.infrastructure.filter;
 
 import com.snapp.billsplitter.infrastructure.config.property.AuthorizationProperties;
 import com.snapp.billsplitter.infrastructure.service.auth.RevocationToken;
-import com.snapp.billsplitter.infrastructure.service.messages.MessageHelper;
+import com.snapp.billsplitter.infrastructure.util.MessageHelper;
 import com.snapp.billsplitter.infrastructure.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

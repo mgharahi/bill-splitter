@@ -5,7 +5,7 @@ import com.snapp.billsplitter.infrastructure.mapper.AuthMapper;
 import com.snapp.billsplitter.infrastructure.service.auth.AuthenticatorFactory;
 import com.snapp.billsplitter.infrastructure.service.auth.PasswordAuthenticator;
 import com.snapp.billsplitter.infrastructure.controller.dto.auth.TokenPackage;
-import com.snapp.billsplitter.infrastructure.service.messages.MessageHelper;
+import com.snapp.billsplitter.infrastructure.util.MessageHelper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,7 +1,7 @@
 package com.snapp.billsplitter.infrastructure.service.auth;
 
 import com.snapp.billsplitter.infrastructure.service.auth.dto.GrantType;
-import com.snapp.billsplitter.infrastructure.service.messages.MessageHelper;
+import com.snapp.billsplitter.infrastructure.util.MessageHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;

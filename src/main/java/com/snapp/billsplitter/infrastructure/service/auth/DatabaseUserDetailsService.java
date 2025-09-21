@@ -1,7 +1,7 @@
 package com.snapp.billsplitter.infrastructure.service.auth;
 
 
-import com.snapp.billsplitter.infrastructure.service.messages.MessageHelper;
+import com.snapp.billsplitter.infrastructure.util.MessageHelper;
 import com.snapp.billsplitter.infrastructure.spring.repository.JpaUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;

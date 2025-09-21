@@ -2,7 +2,7 @@ package com.snapp.billsplitter.infrastructure.service.auth;
 
 import com.snapp.billsplitter.infrastructure.service.auth.dto.Credential;
 import com.snapp.billsplitter.infrastructure.service.auth.dto.TokenPackage;
-import com.snapp.billsplitter.infrastructure.service.messages.MessageHelper;
+import com.snapp.billsplitter.infrastructure.util.MessageHelper;
 import com.snapp.billsplitter.infrastructure.util.CurrentUser;
 import com.snapp.billsplitter.infrastructure.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
