@@ -1,7 +1,7 @@
 package com.snapp.billsplitter.core.domain;
 
 import com.snapp.billsplitter.core.domain.split.strategy.SplitStrategyFactory;
-import com.snapp.billsplitter.core.repository.UserRepository;
+import com.snapp.billsplitter.core.repository.BillRepository;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,19 +12,21 @@ import java.util.stream.Collectors;
 @Builder
 public final class User {
     private final String id;
+    private final String username;
     private final Set<Transaction> transactions;
     private final Set<Event> events;
-    private final UserRepository userRepository;
+    private final BillRepository billRepository;
 
     @Builder
-    private User(String id,
+    private User(String id, String username,
                  Set<Transaction> transactions,
                  Set<Event> events,
-                 UserRepository userRepository) {
+                 BillRepository billRepository) {
         this.id = id == null || id.isBlank() ? UUID.randomUUID().toString() : id;
+        this.username = username;
         this.transactions = transactions == null ? Set.of() : Collections.unmodifiableSet(transactions);
         this.events = events == null ? Set.of() : Collections.unmodifiableSet(events);
-        this.userRepository = userRepository;
+        this.billRepository = billRepository;
     }
 
     public User addTransaction(Transaction transaction, Set<Owe> debtors) {
@@ -43,18 +45,18 @@ public final class User {
         Set<Transaction> newTransactions = new HashSet<>(transactions);
         newTransactions.add(newTransaction);
 
-        userRepository.addNewTransaction(id, newTransaction);
+        billRepository.addNewTransaction(id, newTransaction);
 
         return User.builder()
                 .id(id)
                 .transactions(newTransactions)
                 .events(events)
-                .userRepository(userRepository)
+                .billRepository(billRepository)
                 .build();
     }
 
     private void throwExceptionIfAnyOfDebtorsDoesNotMemberOdEvent(Event event, Set<User> debtors) {
-        Set<User> eventUsers = userRepository.findByEventId(event.getId());
+        Set<User> eventUsers = billRepository.findByEventId(event.getId());
         if (debtors.stream().anyMatch(debtor -> !eventUsers.contains(debtor)))
             throw new IllegalArgumentException("The debtor does not belong to the event " + event.getId());
     }

@@ -1,0 +1,36 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="GroupBalanceReport" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="234a4dc4-8c69-4b24-a185-36e848ab1b5b">
+	<field name="debtor" class="com.snapp.billsplitter.core.domain.User"/>
+	<field name="creditor" class="com.snapp.billsplitter.core.domain.User"/>
+	<field name="amount" class="java.math.BigDecimal"/>
+	<title height="50">
+		<element kind="staticText" uuid="8598beb8-2807-440e-b9b8-781243ee00f4" x="0" y="10" width="555" height="30" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Group Balance Report]]></text>
+		</element>
+	</title>
+	<columnHeader height="20">
+		<element kind="staticText" uuid="b37e4a28-1463-4b88-aa64-1a33c36cc772" x="0" y="0" width="180" height="20" bold="true">
+			<text><![CDATA[Debtor]]></text>
+		</element>
+		<element kind="staticText" uuid="6ec5edf1-b939-4f94-9810-135e303711fb" x="180" y="0" width="180" height="20" bold="true">
+			<text><![CDATA[Creditor]]></text>
+		</element>
+		<element kind="staticText" uuid="daa6d5f7-3a10-423c-8975-82040bd89790" x="360" y="0" width="195" height="20" bold="true">
+			<text><![CDATA[Amount]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<element kind="textField" uuid="6d881bee-1d20-4e16-971b-eb1e017ef8f0" x="0" y="0" width="180" height="20">
+				<expression><![CDATA[$F{debtor}.getUsername()]]></expression>
+			</element>
+			<element kind="textField" uuid="ff78347f-2121-4814-86fc-eda2e6cb2e8a" x="180" y="0" width="180" height="20">
+				<expression><![CDATA[$F{creditor}.getUsername()]]></expression>
+			</element>
+			<element kind="textField" uuid="990a8272-f34a-42d5-b4ee-44f613f28189" x="360" y="0" width="195" height="20" pattern="#,##0.00">
+				<expression><![CDATA[$F{amount}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="71"/>
+</jasperReport>
