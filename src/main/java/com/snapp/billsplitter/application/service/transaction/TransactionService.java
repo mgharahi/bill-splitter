@@ -5,6 +5,7 @@ import com.snapp.billsplitter.core.domain.*;
 import com.snapp.billsplitter.core.repository.BillRepository;
 import com.snapp.billsplitter.infrastructure.spring.repository.JpaOweSummaryRepository;
 import com.snapp.billsplitter.infrastructure.util.CurrentUser;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.*;
@@ -42,12 +43,13 @@ public class TransactionService {
 
         user.addTransaction(Transaction.builder()
                 .owner(user)
+                .debts(owes)
                 .amount(request.transactionAmount())
                 .event(Event.builder()
                         .id(request.eventId().toString())
                         .build())
                 .splitStrategy(SplitStrategy.valueOf(request.splitStrategy().toString()))
-                .build(), owes);
+                .build());
     }
 
     public byte[] getOweSummaryBalanceReport(Long userId) {

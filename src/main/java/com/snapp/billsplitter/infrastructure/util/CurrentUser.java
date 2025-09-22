@@ -3,6 +3,7 @@ package com.snapp.billsplitter.infrastructure.util;
 import com.snapp.billsplitter.infrastructure.config.property.AuthorizationProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,13 @@ public class CurrentUser {
     private final Long userId;
 
 
+    public CurrentUser(String username, String accessToken, Long userId) {
+        this.username = username;
+        this.accessToken = accessToken;
+        this.userId = userId;
+    }
+
+    @Autowired
     public CurrentUser(HttpServletRequest request, AuthorizationProperties authorizationProperties,
                        JwtUtil jwtUtil) {
 

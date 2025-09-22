@@ -29,11 +29,11 @@ public final class User {
         this.billRepository = billRepository;
     }
 
-    public User addTransaction(Transaction transaction, Set<Owe> debtors) {
-        throwExceptionIfAddTransactionInputIsInvalid(transaction, debtors);
-        throwExceptionIfAnyOfDebtorsDoesNotMemberOdEvent(transaction.getEvent(), debtors.stream().map(Owe::getDebtor).collect(Collectors.toSet()));
+    public User addTransaction(Transaction transaction) {
+        throwExceptionIfAddTransactionInputIsInvalid(transaction, transaction.getDebts());
+        throwExceptionIfAnyOfDebtorsDoesNotMemberOdEvent(transaction.getEvent(), transaction.getDebts().stream().map(Owe::getDebtor).collect(Collectors.toSet()));
 
-        Set<Owe> calculatedDebtors = SplitStrategyFactory.getCalculator(transaction.getSplitStrategy()).split(transaction.getAmount(), debtors, this);
+        Set<Owe> calculatedDebtors = SplitStrategyFactory.getCalculator(transaction.getSplitStrategy()).split(transaction.getAmount(), transaction.getDebts(), this);
 
         Transaction newTransaction = Transaction.builder()
                 .event(transaction.getEvent())
